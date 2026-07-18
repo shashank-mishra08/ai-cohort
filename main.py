@@ -3,8 +3,8 @@ import sqlite3
 import pandas as pd
 
 # 1. Load both CSVs
-claims = pd.read_csv("data/claims.csv")
-plans = pd.read_csv("data/plan.csv")
+claims = pd.read_csv("claims.csv")
+plans = pd.read_csv("plans.csv")
 
 # 2. Inspect
 print("=== CLAIMS ===")
