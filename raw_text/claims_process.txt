@@ -1,0 +1,33 @@
+Claims Process Guide (Sample)
+
+This is a synthetic sample document for training only. It is not an official insurer form and does not contain real member or patient information.
+
+1. How to File a Claim
+
+Members should file claims within 90 days of the date of service. Submit claims online through the member portal, by mail to the claims address on your ID card, or by asking your in-network provider to bill the plan directly.
+
+Each claim should include: member ID, patient name, date of birth, provider NPI, procedure codes (CPT/HCPCS), diagnosis codes (ICD-10), place of service, and billed amount.
+
+2. Claim Status Definitions
+
+Pending: claim received and under review.
+
+Approved: claim accepted for payment according to plan benefits.
+
+Denied: claim rejected; see the explanation of benefits (EOB) for the reason code.
+
+Partial: part of the claim paid; remaining amount may be member responsibility.
+
+3. Appeals and Grievances
+
+If you disagree with a claim decision, you may file an appeal within 180 days of the denial notice. Include the claim ID, a copy of the EOB, and any supporting medical records. Standard appeals are decided within 30 days; urgent appeals may be faster when delay could harm the member.
+
+For help with a grievance or appeal, contact Member Services at the number on your ID card or the state consumer assistance program listed in your plan documents.
+
+4. Coordination of Benefits
+
+If a member has more than one health plan, the primary plan pays first. The secondary plan may cover remaining allowed amounts subject to its own deductible and coinsurance rules. Always update both plans when other coverage starts or ends.
+
+5. Sample Timeline
+
+Day 0: service rendered. Day 1–7: provider submits claim. Day 8–21: plan adjudicates claim. Day 22–30: payment issued or denial notice mailed. Day 31+: member may appeal if needed.

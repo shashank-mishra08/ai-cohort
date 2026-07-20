@@ -1,0 +1,64 @@
+ENPOLLMENTFORM (SAMPLE/ SYNTHETIC)
+
+Nota real application atraining decumentonly
+
+Member Full Name:
+
+Date of Birth: _
+
+Sox M/F/X
+
+Member ID (ifexisting!
+
+Street Address _
+
+city
+
+Phone: -
+
+Plan Selection (check one}
+
+Gold PPO {) Silver HMIO_[] Bronze HMO
+
+Coverage Effective Date _
+
+Employer /Group Name: _
+
+Dependent Information
+
+1.Name
+
+2.Name
+
+‘Authorization: certify that the information above is true
+
+and complete tothe bestof my knowledge.
+
+Signature:
+
+
+===== Clean transcription of scanned enrollment form =====
+ENROLLMENT FORM (SAMPLE / SYNTHETIC)
+Not a real application — training document only.
+
+Member Full Name: _______________________________
+Date of Birth: ____________   Sex:  M / F / X
+Member ID (if existing): ________________________
+Street Address: _________________________________
+City: ________________  State: ____  ZIP: _______
+Phone: ____________________  Email: ______________
+
+Plan Selection (check one):
+[ ] Gold PPO     [ ] Silver HMO     [ ] Bronze HMO
+
+Coverage Effective Date: ________________________
+Employer / Group Name: __________________________
+
+Dependent Information:
+1. Name _______________  DOB ________  Relation ______
+2. Name _______________  DOB ________  Relation ______
+
+Authorization: I certify that the information above is true
+and complete to the best of my knowledge.
+
+Signature: ______________________  Date: __________
