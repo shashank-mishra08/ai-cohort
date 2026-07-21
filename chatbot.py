@@ -1,12 +1,16 @@
 """
-Day 3 skeleton — local CLI chatbot (Ollama).
+Day 3 — command-line chatbot against your local Ollama model.
 
 Usage:
+  # Terminal 1: Ollama app running (menu bar icon)
+  cd /Users/shashank/projects/my-first-app
   source .venv/bin/activate
+  pip install ollama
   python3 chatbot.py
 
-Type 'quit' to exit. Needs Ollama running locally with a model pulled
-(e.g. `ollama pull llama3.2` or whatever model you use).
+Type 'quit' to exit.
+
+This machine (8 GB RAM) uses qwen2.5-coder:3b per the course guide.
 """
 
 from __future__ import annotations
@@ -19,14 +23,15 @@ except ImportError:
     print("Install ollama package: pip install ollama")
     sys.exit(1)
 
-# Change if you pulled a different model
-MODEL = "llama3.2"
+# 8 GB RAM → qwen2.5-coder:3b  |  16 GB → :7b  |  32 GB+ → :14b
+MODEL = "qwen2.5-coder:3b"
 
 
 def main() -> None:
     history: list[dict[str, str]] = []
-    print("Local coverage chatbot — type 'quit' to exit")
-    print(f"Model: {MODEL} (Ollama must be running)\n")
+    print("Local chatbot (Ollama) — type 'quit' to exit")
+    print(f"Model: {MODEL}")
+    print("API: http://localhost:11434 (Ollama app must be running)\n")
 
     while True:
         try:
@@ -45,10 +50,13 @@ def main() -> None:
         try:
             reply = ollama.chat(model=MODEL, messages=history)
             text = reply["message"]["content"]
-        except Exception as exc:  # connection / missing model
+        except Exception as exc:
             print(
                 f"AI error: {exc}\n"
-                "Tips: start Ollama app, then `ollama pull llama3.2`, retry."
+                "Tips:\n"
+                "  1) Open Ollama from Applications (menu-bar icon)\n"
+                "  2) ollama list   # model must appear\n"
+                f"  3) ollama pull {MODEL}\n"
             )
             history.pop()
             continue
