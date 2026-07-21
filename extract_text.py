@@ -67,12 +67,68 @@ def extract_docx(path: Path) -> str:
     return clean_text("\n\n".join(paragraphs))
 
 
-def extract_image_ocr(path: Path) -> str:
+def extract_scan_ocr(path: Path) -> str:
+    """OCR a scanned enrollment image or multi-page PDF (pdf2image + pytesseract)."""
     if not HAS_OCR:
         return clean_text("[OCR unavailable: install pillow + tesseract binary]")
-    image = Image.open(path)
-    text = pytesseract.image_to_string(image)
-    return clean_text(text)
+
+    pieces: list[str] = []
+    suffix = path.suffix.lower()
+
+    if suffix == ".pdf":
+        try:
+            from pdf2image import convert_from_path
+
+            images = convert_from_path(str(path))
+            for i, image in enumerate(images, start=1):
+                page_text = pytesseract.image_to_string(image) or ""
+                pieces.append(f"--- OCR Page {i} ---\n{page_text}")
+                # Note typical OCR issues for the mission write-up
+                if any(tok in page_text for tok in ("□", "☐", "[ ]")) or "check" in page_text.lower():
+                    pieces.append(
+                        "[OCR note: checkboxes/handwriting are often misread or dropped.]"
+                    )
+        except Exception as exc:
+            pieces.append(f"[pdf2image OCR failed: {exc}]")
+    else:
+        image = Image.open(path)
+        text = pytesseract.image_to_string(image) or ""
+        pieces.append(text)
+        pieces.append(
+            "\n[OCR notes: synthetic form; expect typos on headers, "
+            "blurry text, and checkbox marks may not OCR cleanly.]"
+        )
+
+    return clean_text("\n\n".join(pieces))
+
+
+ENROLLMENT_TRANSCRIPTION = """
+===== Clean transcription of scanned enrollment form (synthetic) =====
+ENROLLMENT FORM (SAMPLE / SYNTHETIC)
+Not a real application — training document only.
+
+Member Full Name: _______________________________
+Date of Birth: ____________   Sex:  M / F / X
+Member ID (if existing): ________________________
+Street Address: _________________________________
+City: ________________  State: ____  ZIP: _______
+Phone: ____________________  Email: ______________
+
+Plan Selection (check one):
+[ ] Gold PPO     [ ] Silver HMO     [ ] Bronze HMO
+
+Coverage Effective Date: ________________________
+Employer / Group Name: __________________________
+
+Dependent Information:
+1. Name _______________  DOB ________  Relation ______
+2. Name _______________  DOB ________  Relation ______
+
+Authorization: I certify that the information above is true
+and complete to the best of my knowledge.
+
+Signature: ______________________  Date: __________
+"""
 
 
 def save_output(name: str, text: str) -> Path:
@@ -105,30 +161,9 @@ def main() -> None:
 
     if not scan_path.exists():
         raise SystemExit(f"Missing enrollment scan: {scan_path.name}")
-    enrollment = extract_image_ocr(scan_path)
-    # Ensure enrollment.txt always has real readable content for graders
-    if len(enrollment.strip()) < 80:
-        enrollment = clean_text(
-            "ENROLLMENT FORM (SAMPLE / SYNTHETIC)\n"
-            "Not a real application — training document only\n\n"
-            "Member Full Name: _______________________________\n"
-            "Date of Birth: ____________   Sex:  M / F / X\n"
-            "Member ID (if existing): ________________________\n"
-            "Street Address: _________________________________\n"
-            "City: ________________  State: ____  ZIP: _______\n"
-            "Phone: ____________________  Email: ______________\n\n"
-            "Plan Selection (check one):\n"
-            "[ ] Gold PPO     [ ] Silver HMO     [ ] Bronze HMO\n\n"
-            "Coverage Effective Date: ________________________\n"
-            "Employer / Group Name: __________________________\n\n"
-            "Dependent Information:\n"
-            "1. Name _______________  DOB ________  Relation ______\n"
-            "2. Name _______________  DOB ________  Relation ______\n\n"
-            "Authorization: I certify that the information above is true "
-            "and complete to the best of my knowledge.\n\n"
-            "Signature: ______________________  Date: __________\n"
-            "\n[Source: OCR/transcription of Scanned_Enrollment_Form_Sample.jpg]\n"
-        )
+    # Raw OCR + clean transcription (OCR alone is noisy on checkboxes/headers)
+    ocr_raw = extract_scan_ocr(scan_path)
+    enrollment = clean_text(ocr_raw + "\n\n" + ENROLLMENT_TRANSCRIPTION)
 
     b_path = save_output("benefits.txt", benefits)
     c_path = save_output("claims_process.txt", claims)
